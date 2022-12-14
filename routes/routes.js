@@ -11,7 +11,7 @@ module.exports = function (app) {
 	app.use(express.json());
 	app.use(cors());
 
-	app.get("/", (req, res) => {
+	app.get("/api/test", (req, res) => {
 		res.status(200).send("API is working...");
 	});
 
