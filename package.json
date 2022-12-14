@@ -1,7 +1,7 @@
 {
-	"name": "omakaseapi",
+	"name": "app-reviewers-api",
 	"version": "1.0.0",
-	"description": "omakaseApi",
+	"description": "app-reviewers-api",
 	"main": "server.js",
 	"engines": {
 		"node": "16.18.1"
@@ -17,6 +17,7 @@
 		"@sendgrid/mail": "^7.7.0",
 		"axios": "^0.27.2",
 		"bcrypt": "^5.0.1",
+		"body-parser": "^1.20.1",
 		"btcpay": "^0.2.5",
 		"cors": "^2.8.5",
 		"crypto-js": "^4.1.1",
