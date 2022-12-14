@@ -7,10 +7,54 @@ const {
     Account,
 } = require('../app/models/userAccount');
 const {
+    User,
+} = require('../app/models/user');
+const {
     Cost,
 } = require('../app/models/cost');
 const axios = require('axios');
 class AccountManager {
+
+
+    async verifyPurchase(data) {
+        try {
+            if (data.status == 'paid') {
+                let userEmail = data.buyerFields.buyerEmail;
+                if (!userEmail) {
+                    return;
+                }
+                let user = await User.findOne({
+                    email: userEmail
+                })
+                if (!user) {
+                    return;
+                }
+                let userAccount = await Account.findOne({
+                    userId: user._id
+                })
+                if (!userAccount) {
+                    return;
+                }
+                let userBalance = userAccount.balance + data.price;
+
+                await userAccount.updateOne({
+                    $set: {
+                        balance: userBalance,
+                        updated_at: Date.now(),
+                    },
+                    $push: {
+                        transactions: data
+                    }
+                })
+
+            }
+        } catch (ex) {
+            console.log('err: while fetching payment notification' + ex.message);
+            return false;
+        }
+
+    }
+
 
     async makeNewPurchase() {
         try {
