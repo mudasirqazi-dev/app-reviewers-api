@@ -6,7 +6,7 @@ db = require("./startup/db");
 db.open();
 
 require("./startup/logging")();
-// require("./startup/validation")();
+require("./startup/validation")();
 
 app.get("/", (req, res) => res.status(200).send("API is working..."));
 require("./routes/routes")(app);

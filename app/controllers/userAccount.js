@@ -111,8 +111,9 @@ router.get("/byUserId/:id", auth, async (req, res, next) => {
 });
 
 // route to get account by id
-router.get("/test", async (req, res, next) => {
+router.post("/test", async (req, res, next) => {
 	console.log("test hit");
+	console.log(req.body);
 	res.sendStatus(200);
 	// accountManager.makeNewPurchase().then(data => {
 
