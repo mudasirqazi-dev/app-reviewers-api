@@ -7,9 +7,6 @@ db = require("./startup/db");
 require("./startup/validation")();
 require("./routes/routes")(app);
 
-app.get("/", (req, res) => {
-	res.status(200).send("API is working...");
-});
 app.get("*", (req, res) => {
 	res.status(400).send("Access Denied");
 });

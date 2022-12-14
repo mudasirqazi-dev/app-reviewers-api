@@ -11,6 +11,10 @@ module.exports = function (app) {
 	app.use(express.json());
 	app.use(cors());
 
+	app.get("/", (req, res) => {
+		res.status(200).send("API is working...");
+	});
+
 	app.use("/api/users", users);
 	app.use("/api/apps", apps);
 	app.use("/api/sms", sms);
