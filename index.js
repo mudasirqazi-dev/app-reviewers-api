@@ -11,9 +11,9 @@ require("./startup/validation")();
 app.get("/", (req, res) => res.status(200).send("API is working..."));
 require("./routes/routes")(app);
 
-// app.get("*", (req, res) => {
-// 	res.status(400).send("Access Denied");
-// });
+app.get("*", (req, res) => {
+	res.status(400).send("Access Denied");
+});
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
