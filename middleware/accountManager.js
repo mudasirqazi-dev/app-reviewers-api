@@ -92,9 +92,10 @@ class AccountManager {
 
 	async createNewUserAccount(user) {
 		try {
+			const costObj = await Cost.find({});
 			let data = {
 				userId: user._id,
-				balance: 0
+				balance: parseFloat(costObj[0].initialBalance)
 			};
 			let account = new Account(data);
 			account.save();
@@ -127,6 +128,35 @@ class AccountManager {
 			});
 			let costObj = await Cost.find();
 			let balance = account.balance - costObj[0].cost;
+			Account.updateOne(
+				{
+					_id: account._id
+				},
+				[
+					{
+						$set: {
+							balance: balance,
+							updated_at: new Date()
+						}
+					}
+				]
+			).then(data => {
+				console.log("data" + JSON.stringify(data));
+			});
+
+			return true;
+		} catch (ex) {
+			console.log("err: while deducting query cost" + ex.message);
+			return false;
+		}
+	}
+
+	async deductQueryCost2(userId, cost) {
+		try {
+			let account = await Account.findOne({
+				userId: userId
+			});
+			let balance = account.balance - cost;
 			Account.updateOne(
 				{
 					_id: account._id

@@ -1,22 +1,15 @@
 const _ = require("lodash");
 require("dotenv").config();
-const { Cost, validate } = require("../models/cost");
+const { Name } = require("../models/names");
 const auth = require("../../middleware/auth");
 const admin = require("../../middleware/admin");
 const express = require("express");
 const router = express.Router();
 
-// route to save new cost object
+// route to save new name object
 router.post("/save", async (req, res, next) => {
-	const cost = new Cost(req.body);
-	const { error } = validate(req.body);
-	if (error)
-		return res.status(400).json({
-			success: false,
-			message: "Validation error",
-			error: error
-		});
-	cost.save().then(result => {
+	const name = new Name(req.body);
+	name.save().then(result => {
 		if (result) {
 			res.status(200).json({
 				success: true,
@@ -33,9 +26,7 @@ router.post("/save", async (req, res, next) => {
 });
 
 router.get("/all", admin, async (req, res, next) => {
-	Cost.find({
-		isDeleted: false
-	}).then(data => {
+	Name.find({}).then(data => {
 		if (data) {
 			res.status(200).json(data);
 		} else {
@@ -53,16 +44,14 @@ router.patch("/update/:id", auth, async (req, res, next) => {
 			message: "Invalid id"
 		});
 	}
-	Cost.updateOne(
+	Name.updateOne(
 		{
 			_id: id
 		},
 		[
 			{
 				$set: {
-					cost: req.body.cost,
-					initialBalance: req.body.initialBalance,
-					updated_at: new Date()
+					names: req.body.names
 				}
 			}
 		]
