@@ -15,7 +15,7 @@ require("./routes/routes")(app);
 // 	res.status(400).send("Access Denied");
 // });
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
 	winston.info(`Listening on port ${port}...`);
 	console.log(`Listening on port ${port}`);
