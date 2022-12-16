@@ -1,6 +1,10 @@
 const winston = require("winston");
 const express = require("express");
+const cors = require("cors");
 const app = express();
+
+app.use(cors());
+app.use(express.json());
 
 db = require("./startup/db");
 db.open();
