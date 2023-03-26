@@ -407,7 +407,6 @@ const Manager = {
     return t ? t : false;
   },
   addPoints1: async (id, currentPoints, points) => {
-    console.log("Adding points: ", id, currentPoints, points);
     let t = await Model.findByIdAndUpdate(
       id,
       {
