@@ -28,12 +28,12 @@ app.use("/api/settings", settings);
 app.use("/api/names", names);
 
 app.post("/test", async (req, res) => {
-	await smsManager.sendSms({
-		phone: "+923237820910",
-		message: "Test",
-		username: "MQ"
-	});
-	res.sendStatus(200);
+  await smsManager.sendSms({
+    phone: "+923237820910",
+    message: "Test",
+    username: "MQ",
+  });
+  res.sendStatus(200);
 });
 
 const port = process.env.PORT || 4000;
