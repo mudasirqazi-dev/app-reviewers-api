@@ -1,30 +1,56 @@
 const Model = require("../models/name");
+const nameManager = require("../managers/name");
 
 const Manager = {
-	create: async data => {
-		let t = new Model(data);
-		t = await t.save();
-		return t ? t : false;
-	},
+  getAll: async (keyword) => {
+    let names = await Model.aggregate([
+      {
+        $match: {
+          name: { $regex: keyword, $options: "i" },
+        },
+      },
+    ]);
+    return names;
+  },
 
-	get: async () => {
-		const t = await Model.find({});
-		return t.length >= 1 ? t[0] : { names: "" };
-	},
+  create: async (data) => {
+    const alreadyExists = await Model.findOne({
+      name: { $regex: data.name, $options: "i" },
+    });
+    if (alreadyExists) {
+      throw new Error("An app with the provided name already exists.");
+    }
+    let t = new Model(data);
+    t = await t.save();
+    return t ? t : false;
+  },
 
-	delete: async () => await Model.deleteMany({}),
+  createMany: async (arr) => {
+    const data = await Model.insertMany(arr);
+    return data ? data : false;
+  },
 
-	update: async obj => {
-		const record = await Manager.get();
-		const t = await Model.findByIdAndUpdate(
-			record._id,
-			{
-				names: obj.names
-			},
-			{ new: true }
-		);
-		return t;
-	}
+  update: async (id, data) => {
+    const alreadyExists = await Model.findOne({
+      name: { $regex: data.name, $options: "i" },
+    });
+    if (alreadyExists) {
+      throw new Error("An app with the provided name already exists.");
+    }
+    const t = await Model.findByIdAndUpdate(
+      id,
+      {
+        name: data.name,
+      },
+      { new: true }
+    );
+    return t;
+  },
+
+  deleteById: async (id) => {
+    let t = await Model.findByIdAndDelete(id);
+    return t ? true : false;
+  },
 };
 
 module.exports = Manager;
