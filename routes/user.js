@@ -364,6 +364,16 @@ router.post(`/getUsers`, async (req, res) => {
   }
 });
 
+router.get(`/totalUsers`, admin, async (req, res) => {
+  try {
+    console.log("WWWPPP");
+    const users = await userManager.getTotalUsers();
+    return res.status(200).send(users);
+  } catch (ex) {
+    return res.status(500).send(ex.message);
+  }
+});
+
 router.delete(`/:userId`, async (req, res) => {
   try {
     const error = userValidations.userId(req.params).error;

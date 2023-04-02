@@ -105,6 +105,11 @@ const Manager = {
     ]);
     return users;
   },
+  getTotalUsers: async () => {
+    let users = await Model.find({});
+    console.log(users.length);
+    return users.length.toString();
+  },
   getTop: async (category) => {
     let users = await Model.aggregate([
       {
@@ -165,45 +170,9 @@ const Manager = {
     return t;
   },
   getById: async (id) => {
-    let user = await Model.aggregate([
-      {
-        $match: { _id: new ObjectId(id) },
-      },
-      {
-        $lookup: {
-          from: `projects`,
-          localField: `_id`,
-          foreignField: `userId`,
-          as: `projects`,
-        },
-      },
-      {
-        $lookup: {
-          from: `achievements`,
-          localField: `_id`,
-          foreignField: `userId`,
-          as: `achievements`,
-        },
-      },
-      {
-        $lookup: {
-          from: `likes`,
-          localField: `_id`,
-          foreignField: `npoId`,
-          as: `likes`,
-        },
-      },
-      {
-        $lookup: {
-          from: `payments`,
-          localField: `_id`,
-          foreignField: `npoId`,
-          as: `payments`,
-        },
-      },
-    ]);
-
-    return user[0];
+    let user = await Model.findById(id);
+    let payments = await Payment.find({ userId: id });
+    return { user, payments };
   },
   getDetailsById: async (id) => {},
 

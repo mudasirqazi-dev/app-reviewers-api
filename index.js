@@ -9,6 +9,7 @@ const users = require("./routes/user");
 const apps = require("./routes/app");
 const sms = require("./routes/sms");
 const payments = require("./routes/payment");
+const searches = require("./routes/search");
 const settings = require("./routes/setting");
 const names = require("./routes/name");
 const smsManager = require("./managers/sms");
@@ -24,6 +25,7 @@ app.use("/api/users", users);
 app.use("/api/apps", apps);
 app.use("/api/sms", sms);
 app.use("/api/payments", payments);
+app.use("/api/searches", searches);
 app.use("/api/settings", settings);
 app.use("/api/names", names);
 
