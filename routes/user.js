@@ -366,7 +366,6 @@ router.post(`/getUsers`, async (req, res) => {
 
 router.get(`/totalUsers`, admin, async (req, res) => {
   try {
-    console.log("WWWPPP");
     const users = await userManager.getTotalUsers();
     return res.status(200).send(users);
   } catch (ex) {

@@ -1,7 +1,11 @@
 const admin = require("../middlewares/admin");
+const auth = require("../middlewares/auth");
 const router = require("express").Router();
 const userManager = require("../managers/user");
 const paymentManager = require("../managers/payment");
+const searchManager = require("../managers/search");
+const userValidations = require("../validations/user");
+const getErrorDetails = require("../utils/error-details");
 const moment = require("moment");
 
 router.post(`/all`, admin, async (req, res) => {
@@ -20,6 +24,36 @@ router.get(`/`, admin, async (req, res) => {
   try {
     const sum = await paymentManager.getAllTimeSum();
     return res.status(200).send(sum);
+  } catch (ex) {
+    return res.status(500).send(ex.message);
+  }
+});
+
+// router.get(`/:userId`, auth, async (req, res) => {
+//   try {
+//     let userId = req.params.userId;
+//     const error = userValidations.userId({ userId }).error;
+//     if (error) return res.status(400).send(getErrorDetails(error));
+
+//     const user = await paymentManager.getByUserId({ userId });
+//     return res.status(200).send(user);
+//   } catch (ex) {
+//     return res.status(500).send(ex.message);
+//   }
+// });
+
+router.post(`/user`, auth, async (req, res) => {
+  try {
+    let userId = req.body.userId;
+    const error = userValidations.userId({ userId }).error;
+    if (error) return res.status(400).send(getErrorDetails(error));
+
+    const keyword = req.body.keyword || "";
+    const from = req.body.from || "";
+    const to = req.body.to || "";
+
+    const user = await paymentManager.getByUserId(userId, keyword, from, to);
+    return res.status(200).send(user);
   } catch (ex) {
     return res.status(500).send(ex.message);
   }

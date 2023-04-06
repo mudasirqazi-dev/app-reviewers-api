@@ -11,6 +11,39 @@ const Manager = {
       .lte(to);
     return t;
   },
+  // getByUserId: async (obj) => {
+  //   let t = await Model.aggregate([
+  //     {
+  //       $match: { userId: new mongoose.Types.ObjectId(obj.userId) },
+  //     },
+  //     {
+  //       $lookup: {
+  //         from: "users",
+  //         localField: "userId",
+  //         foreignField: "_id",
+  //         as: "userId",
+  //       },
+  //     },
+  //   ]);
+  //   return t;
+  // },
+  getByUserId: async (userId, keyword, from, to) => {
+    let t = await Model.aggregate([
+      {
+        $match: {
+          $and: [
+            { userId: new mongoose.Types.ObjectId(userId) },
+            { date: { $gte: new Date(from), $lte: new Date(to) } },
+          ],
+          $or: [
+            { userName: { $regex: keyword, $options: "i" } },
+            { btc: { $regex: keyword, $options: "i" } },
+          ],
+        },
+      },
+    ]);
+    return t;
+  },
   create: async (t) => {
     let pmt = new Model(t);
     pmt = await pmt.save();
@@ -19,7 +52,7 @@ const Manager = {
   getAllTimeSum: async () => {
     let t = await Model.find({});
     let sum = t.reduce((acc, obj) => acc + parseFloat(obj.amount), 0) || 0;
-    return sum.toString();
+    return sum ? sum : false;
   },
   getSumByDateRange: async (from, to) => {
     let t = await Model.find({}).where("date").gte(from).lte(to);
@@ -131,56 +164,6 @@ const Manager = {
       },
     ]);
     return referal;
-  },
-  getByUserId: async (donarId) => {
-    let t = await Model.aggregate([
-      {
-        $match: { donarId: new mongoose.Types.ObjectId(donarId) },
-      },
-      {
-        $lookup: {
-          from: "users",
-          localField: "donarId",
-          foreignField: "_id",
-          as: "donarId",
-        },
-      },
-      {
-        $lookup: {
-          from: "users",
-          localField: "npoId",
-          foreignField: "_id",
-          as: "npoId",
-        },
-      },
-      {
-        $lookup: {
-          from: "projects",
-          localField: "projectId",
-          foreignField: "_id",
-          as: "projectId",
-        },
-      },
-      {
-        $unwind: {
-          path: "$donarId",
-          preserveNullAndEmptyArrays: true,
-        },
-      },
-      {
-        $unwind: {
-          path: "$npoId",
-          preserveNullAndEmptyArrays: true,
-        },
-      },
-      {
-        $unwind: {
-          path: "$projectId",
-          preserveNullAndEmptyArrays: true,
-        },
-      },
-    ]);
-    return t;
   },
   getPaymentCountByUserId: async (donarId) => {
     let t = await Model.find({ donarId: donarId }).populate("donarId");

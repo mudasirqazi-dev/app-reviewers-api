@@ -1,14 +1,16 @@
 const Joi = require("joi");
 
 module.exports = {
-	search: data =>
-		Joi.object({
-			keyword: Joi.string().required()
-		}).validate(data),
+  search: (data) =>
+    Joi.object({
+      keyword: Joi.string().required(),
+      userName: Joi.string().required(),
+    }).validate(data),
 
-	details: data =>
-		Joi.object({
-			keyword: Joi.string().required(),
-			totalCost: Joi.number().required()
-		}).validate(data)
+  details: (data) =>
+    Joi.object({
+      keyword: Joi.string().required(),
+      totalCost: Joi.number().required(),
+      userName: Joi.string().required(),
+    }).validate(data),
 };

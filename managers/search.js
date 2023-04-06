@@ -7,19 +7,6 @@ const Manager = {
     return t ? t : false;
   },
 
-  //   getAll: async (keywords, from, to) => {
-  //     let t = await Model.find({
-  //       $or: [
-  //         { userName: { $regex: keywords, $options: "i" } },
-  //         { keyword: { $regex: keywords, $options: "i" } },
-  //       ],
-  //     })
-  //       .where("date")
-  //       .gte(from)
-  //       .lte(to);
-  //     return t;
-  //   },
-
   getAll: async (keywords, from, to) => {
     let query = {
       $or: [
@@ -37,6 +24,11 @@ const Manager = {
 
     let t = await Model.find(query);
     return t;
+  },
+
+  getStrength: async () => {
+    let t = await Model.find({});
+    return t ? t.length : false;
   },
 };
 

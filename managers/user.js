@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 const Constants = require("../utils/constants");
 const paymentManager = require("../managers/payment");
+const user = require("../validations/user");
 
 const Manager = {
   deleteAllAdmins: async () => {
@@ -94,21 +95,12 @@ const Manager = {
           ],
         },
       },
-      // {
-      // 	$lookup: {
-      // 		from: `payments`,
-      // 		localField: `_id`,
-      // 		foreignField: `userId`,
-      // 		as: `payments`
-      // 	}
-      // }
     ]);
     return users;
   },
-  getTotalUsers: async () => {
+  getStrength: async () => {
     let users = await Model.find({});
-    console.log(users.length);
-    return users.length.toString();
+    return users ? users.length : false;
   },
   getTop: async (category) => {
     let users = await Model.aggregate([

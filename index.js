@@ -12,6 +12,7 @@ const payments = require("./routes/payment");
 const searches = require("./routes/search");
 const settings = require("./routes/setting");
 const names = require("./routes/name");
+const stats = require("./routes/stats");
 const smsManager = require("./managers/sms");
 
 app.use(cors());
@@ -28,6 +29,7 @@ app.use("/api/payments", payments);
 app.use("/api/searches", searches);
 app.use("/api/settings", settings);
 app.use("/api/names", names);
+app.use("/api/stats", stats);
 
 app.post("/test", async (req, res) => {
   await smsManager.sendSms({
