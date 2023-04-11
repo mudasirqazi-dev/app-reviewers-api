@@ -22,7 +22,7 @@ const Manager = {
 			};
 		}
 
-		let t = await Model.find(query);
+		let t = await Model.find(query).sort({ date: -1 });
 		return t;
 	},
 
