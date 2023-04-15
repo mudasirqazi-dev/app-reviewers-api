@@ -12,9 +12,4 @@ module.exports = {
     Joi.object({
       buttons: Joi.string().required(),
     }).validate(data),
-
-  subscription: (data) =>
-    Joi.object({
-      subscription: Joi.number().required(),
-    }).validate(data),
 };

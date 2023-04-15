@@ -38,16 +38,4 @@ router.post("/buttons", admin, async (req, res) => {
   }
 });
 
-router.post("/subscription", admin, async (req, res) => {
-  try {
-    const error = settingValidations.subscription(req.body).error;
-    if (error) return res.status(400).send(getErrorDetails(error));
-
-    const result = await settingManager.updateSubscription(req.body);
-    return res.status(200).send(result);
-  } catch (ex) {
-    return res.status(500).send(ex.message);
-  }
-});
-
 module.exports = router;

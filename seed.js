@@ -48,7 +48,6 @@ const saveSettings = () =>
       cost: 0.1,
       initialBalance: 10,
       buttons: "10; 30; 50",
-      subscription: 100,
     });
     resolve();
   });
