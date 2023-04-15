@@ -15,6 +15,7 @@ const Manager = {
           cost: 0.1,
           initialBalance: 10,
           buttons: "10; 30; 50",
+          subscription: 100,
         };
   },
 
@@ -39,6 +40,18 @@ const Manager = {
       record._id,
       {
         buttons: obj.buttons,
+      },
+      { new: true }
+    );
+    return t;
+  },
+
+  updateSubscription: async (obj) => {
+    const record = await Manager.get();
+    const t = await Model.findByIdAndUpdate(
+      record._id,
+      {
+        subscription: obj.subscription,
       },
       { new: true }
     );
