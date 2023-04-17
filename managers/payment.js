@@ -1,9 +1,9 @@
 const Model = require("../models/payment");
-const constants = require("../utils/constants");
 const mongoose = require("mongoose");
 
 const Manager = {
   getAll: async (keyword, from, to) => {
+    console.log(keyword, from, to);
     let t = await Model.find({
       userName: { $regex: keyword, $options: "i" },
     })
