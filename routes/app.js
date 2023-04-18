@@ -30,15 +30,18 @@ router.post("/", auth, async (req, res) => {
 		if (error) return res.status(400).send(getErrorDetails(error));
 
 		const keyword = req.body.keyword || "";
+		const userId = req.tokenData.userId;
 		const list = await appManager.getAll(keyword);
 		const history = await historyManager.getByUserId(
+			userId,
 			keyword,
-			req.tokenData.userId
+			"",
+			""
 		);
 
 		// add search record
 		await searchManager.create({
-			userId: req.tokenData.userId,
+			userId: userId,
 			userName: req.body.userName,
 			keyword: keyword,
 			cost: req.body.totalCost || 0,
