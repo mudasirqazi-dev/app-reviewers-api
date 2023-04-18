@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 
 const Manager = {
   getAll: async (keyword, from, to) => {
-    console.log(keyword, from, to);
     let t = await Model.find({
       userName: { $regex: keyword, $options: "i" },
     })
@@ -40,6 +39,11 @@ const Manager = {
   },
   getAllTimeSum: async () => {
     let t = await Model.find({});
+    let sum = t.reduce((acc, obj) => acc + obj.amount, 0);
+    return sum ? sum : 0;
+  },
+  getSumById: async (userId) => {
+    let t = await Model.find({ userId: userId });
     let sum = t.reduce((acc, obj) => acc + obj.amount, 0);
     return sum ? sum : 0;
   },

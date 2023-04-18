@@ -52,19 +52,9 @@ const saveSettings = () =>
     resolve();
   });
 
-const saveNames = () =>
-  new Promise(async (resolve, reject) => {
-    await nameManager.delete();
-    await nameManager.create({
-      names: "",
-    });
-    resolve();
-  });
-
 (async () => {
   await saveAdmins();
   await saveSettings();
-  await saveNames();
   console.log("Seeding completed.\nDisconnected.");
   mongoose.disconnect();
 })();
