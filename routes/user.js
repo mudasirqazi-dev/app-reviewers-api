@@ -354,7 +354,7 @@ router.get(`/:userId`, admin, async (req, res) => {
   }
 });
 
-router.post(`/getUsers`, async (req, res) => {
+router.post(`/all`, async (req, res) => {
   try {
     const keyword = req.body.keyword || "";
     const page = req.body.page || "";

@@ -3,15 +3,10 @@ const mongoose = require("mongoose");
 
 const Manager = {
   getAll: async (keyword, from, to, page, limit) => {
-    // let t = await Model.find({
-    //   userName: { $regex: keyword, $options: "i" },
-    // })
-    //   .where("date")
-    //   .gte(from)
-    //   .lte(to)
-    //   .sort({ date: -1 });
-    // return t;
-    let query = { userName: { $regex: keyword, $options: "i" } };
+    let query = {
+      userName: { $regex: keyword, $options: "i" },
+    };
+
     if (from !== "" && to !== "") {
       query.date = {
         $gte: from,

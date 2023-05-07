@@ -2,10 +2,6 @@ const Model = require("../models/user");
 const Payment = require("../models/payment");
 const uuid = require("uuid").v4;
 const mongoose = require("mongoose");
-const ObjectId = mongoose.Types.ObjectId;
-const Constants = require("../utils/constants");
-const paymentManager = require("../managers/payment");
-const user = require("../validations/user");
 
 const Manager = {
   deleteAllAdmins: async () => {
@@ -26,21 +22,6 @@ const Manager = {
     return t ? t : false;
   },
   getAll: async (keyword, page, limit) => {
-    // let users = await Model.aggregate([
-    //   {
-    //     $match: {
-    //       type: "user",
-    //       $or: [
-    //         { name: { $regex: keyword, $options: "i" } },
-    //         { email: { $regex: keyword, $options: "i" } },
-    //       ],
-    //     },
-    //   },
-    //   {
-    //     $sort: { joined: -1 },
-    //   },
-    // ]);
-    // return users;
     let query = {
       $or: [
         { name: { $regex: keyword, $options: "i" } },
@@ -58,6 +39,7 @@ const Manager = {
       results: t,
     };
   },
+
   getStrength: async () => await Model.countDocuments({ type: "user" }),
   getById: async (id) => {
     let user = await Model.findById(id);
