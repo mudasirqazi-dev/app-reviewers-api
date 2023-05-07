@@ -2,15 +2,31 @@ const Model = require("../models/payment");
 const mongoose = require("mongoose");
 
 const Manager = {
-  getAll: async (keyword, from, to) => {
-    let t = await Model.find({
-      userName: { $regex: keyword, $options: "i" },
-    })
-      .where("date")
-      .gte(from)
-      .lte(to)
-      .sort({ date: -1 });
-    return t;
+  getAll: async (keyword, from, to, page, limit) => {
+    // let t = await Model.find({
+    //   userName: { $regex: keyword, $options: "i" },
+    // })
+    //   .where("date")
+    //   .gte(from)
+    //   .lte(to)
+    //   .sort({ date: -1 });
+    // return t;
+    let query = { userName: { $regex: keyword, $options: "i" } };
+    if (from !== "" && to !== "") {
+      query.date = {
+        $gte: from,
+        $lte: to,
+      };
+    }
+
+    const skip = page * limit;
+    const count = await Model.countDocuments(query);
+    let t = await Model.find(query).sort({ date: -1 }).skip(skip).limit(limit);
+
+    return {
+      count: count,
+      results: t,
+    };
   },
   getByUserId: async (userId, keyword, from, to) => {
     let t = await Model.aggregate([

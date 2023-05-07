@@ -42,7 +42,9 @@ router.post(`/all`, admin, async (req, res) => {
     const keyword = req.body.keyword || "";
     const from = req.body.from || "";
     const to = req.body.to || "";
-    const names = await searchManager.getAll(keyword, from, to);
+    const page = req.body.page || "";
+    const limit = req.body.limit || "";
+    const names = await searchManager.getAll(keyword, from, to, page, limit);
     return res.status(200).send(names);
   } catch (ex) {
     return res.status(500).send(ex.message);

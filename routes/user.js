@@ -357,7 +357,9 @@ router.get(`/:userId`, admin, async (req, res) => {
 router.post(`/getUsers`, async (req, res) => {
   try {
     const keyword = req.body.keyword || "";
-    const users = await userManager.getAll(keyword);
+    const page = req.body.page || "";
+    const limit = req.body.limit || "";
+    const users = await userManager.getAll(keyword, page, limit);
     return res.status(200).send(users);
   } catch (ex) {
     return res.status(500).send(ex.message);
