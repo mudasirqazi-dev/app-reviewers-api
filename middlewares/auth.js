@@ -4,7 +4,8 @@ const constants = require("../utils/constants");
 const userManager = require("../managers/user");
 
 module.exports = async (req, res, next) => {
-	const token = req.header(constants.TOKEN_NAME);
+	// const token = req.header(constants.TOKEN_NAME_ADMIN);
+	const token = req.headers[constants.TOKEN_NAME] || false;
 	if (!token)
 		return res.status(401).send(`Access denied. Invalid token provided.`);
 
