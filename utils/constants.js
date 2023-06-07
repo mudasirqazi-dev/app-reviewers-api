@@ -1,4 +1,4 @@
 module.exports = {
-	TOKEN_NAME: `app_reviewers_auth`,
-	TOKEN_NAME_ADMIN: `app_reviewers_admin_auth`
+	TOKEN_NAME: `x-auth`,
+	TOKEN_NAME_ADMIN: `x-auth-admin`
 };

@@ -28,7 +28,9 @@ const schema = new mongoose.Schema({
 		type: Number,
 		required: false,
 		default: 0
-	}
+	},
+	smsedgeKey: { type: String, required: false, default: "" },
+	searchKeywords: { type: String, required: false, default: "" }
 });
 
 const User = mongoose.model("User", schema);

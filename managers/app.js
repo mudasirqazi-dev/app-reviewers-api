@@ -4,7 +4,8 @@ const Manager = {
 	getAll: async keyword => {
 		return await Model.find({
 			app: { $regex: keyword, $options: "i" }
-		}).select({ username: 1, app: 1 });
+		});
+		//.select({ username: 1, app: 1, from: 1, datetime: 1, });
 	},
 	getAllDetails: async keyword => {
 		return await Model.find({

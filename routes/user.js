@@ -474,4 +474,35 @@ router.post(`/name`, admin, async (req, res) => {
 	}
 });
 
+router.post(`/update-key`, auth, async (req, res) => {
+	try {
+		const error = userValidations.updateKey(req.body).error;
+		if (error) return res.status(400).send(getErrorDetails(error));
+
+		const userId = req.tokenData.userId;
+		const key = req.body.key;
+		const user = await userManager.updateSmsEdgeKey(userId, key);
+		return res.status(200).send(user);
+	} catch (ex) {
+		return res.status(500).send(ex.message);
+	}
+});
+
+router.post(`/update-keywords`, auth, async (req, res) => {
+	try {
+		const error = userValidations.updateKeywords(req.body).error;
+		if (error) return res.status(400).send(getErrorDetails(error));
+
+		const userId = req.tokenData.userId;
+		const searchKeywords = req.body.searchKeywords;
+		const user = await userManager.updateSearchKeywords(
+			userId,
+			searchKeywords
+		);
+		return res.status(200).send(user);
+	} catch (ex) {
+		return res.status(500).send(ex.message);
+	}
+});
+
 module.exports = router;
