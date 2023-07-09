@@ -62,7 +62,9 @@ router.post("/", auth, async (req, res) => {
 			_list.push({
 				username: t.username,
 				app: t.app,
-				contacts: contacts?.length || 0
+				contacts: contacts?.length || 0,
+				from: t.from,
+				datetime: t.datetime
 			});
 		}
 
@@ -74,15 +76,18 @@ router.post("/", auth, async (req, res) => {
 		);
 
 		// add search record
-		await searchManager.create({
-			userId: userId,
-			userName: req.body.userName,
-			keyword: keyword.join(";"),
-			cost: req.body.totalCost || 0,
-			type: "Free",
-			results: list?.length || 0,
-			date: moment().format()
-		});
+		const addSearchRecord = req.body.addSearchRecord || true;
+		if(addSearchRecord) {
+			await searchManager.create({
+				userId: userId,
+				userName: req.body.userName,
+				keyword: keyword.join(";"),
+				cost: req.body.totalCost || 0,
+				type: "Free",
+				results: list?.length || 0,
+				date: moment().format()
+			});
+		}
 
 		return res.status(200).send({ list: _list, history });
 	} catch (ex) {
@@ -143,7 +148,9 @@ router.post("/details", auth, async (req, res) => {
 				username: t.username,
 				app: t.app,
 				country: t.country,
-				contacts: getContacts(t)
+				contacts: getContacts(t),
+				from: t.from,
+				datetime: t.datetime
 			});
 		}
 
